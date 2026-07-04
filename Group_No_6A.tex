@@ -1,0 +1,217 @@
+
+\documentclass[12pt,a4paper]{article}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{\textbf{Grover's Search Algorithm:\\
+Searching the Marked Quantum State $|1101\rangle$}}
+
+\author{
+Yugandhara Sherkar \\
+Gaurav Mohol \\
+Ayush Agrawal \\
+Sharad Pratap
+}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Quantum computing exploits the principles of quantum mechanics such as superposition and interference to solve certain computational problems more efficiently than classical computers. One of the most important quantum algorithms is Grover's Search Algorithm, proposed by Lov Grover in 1996. It provides a quadratic speedup for searching an unstructured database.
+
+In this project, Grover's algorithm is implemented using Qiskit to search for the marked quantum state
+
+\[
+|1101\rangle
+\]
+
+within a four-qubit search space. The implementation demonstrates amplitude amplification and verifies the theoretical behaviour of the algorithm through simulation.
+
+\section{Problem Statement}
+
+A four-qubit quantum register represents
+
+\[
+2^4 = 16
+\]
+
+possible computational basis states. The objective is to identify the marked state
+
+\[
+|1101\rangle
+\]
+
+using Grover's Search Algorithm.
+
+In a classical search, the average time complexity is
+
+\[
+O(N),
+\]
+
+where every element may need to be examined.
+
+Grover's algorithm reduces the search complexity to
+
+\[
+O(\sqrt{N}),
+\]
+
+providing a significant quantum advantage for unstructured search problems.
+
+\section{Methodology}
+
+The implementation follows the standard Grover search procedure.
+
+\subsection*{1. Initialization}
+
+The quantum register is initialized to
+
+\[
+|0000\rangle.
+\]
+
+Applying Hadamard gates to all four qubits creates the uniform superposition
+
+\[
+\frac{1}{\sqrt{16}}
+\sum_{x=0}^{15}|x\rangle.
+\]
+
+Each basis state initially has equal probability.
+
+\subsection*{2. Oracle}
+
+The Oracle identifies the marked state by applying a phase inversion
+
+\[
+|1101\rangle
+\rightarrow
+-
+|1101\rangle.
+\]
+
+All other basis states remain unchanged.
+
+\subsection*{3. Diffusion Operator}
+
+The diffusion operator reflects all amplitudes about their average value. This operation amplifies the amplitude of the marked state while reducing the amplitudes of the remaining states.
+
+\subsection*{4. Grover Iterations}
+
+The Oracle and Diffusion operator together form one Grover iteration. These iterations are repeated several times to maximize the probability of measuring the marked state.
+
+Finally, all qubits are measured in the computational basis.
+
+\section{Implementation}
+
+The algorithm was implemented using Python and the Qiskit framework.
+
+The quantum circuit consists of
+
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/grover_circuit.png}
+  \caption{Quantum circuit implementing Grover's Search Algorithm.}
+  \label{fig:grover_circuit}
+\end{figure}
+
+\begin{itemize}
+\item Four search qubits
+\item One ancilla qubit
+\item Auxiliary ancilla qubits for multi-controlled operations
+\item Oracle circuit
+\item Diffusion operator
+\item Measurement circuit
+\end{itemize}
+
+During execution, the following quantities were collected:
+
+\begin{itemize}
+\item Probability of the marked state
+\item Real amplitude of the marked state
+\item Average amplitude of the search register
+\item Real and imaginary components of the statevector
+\end{itemize}
+
+The experiments were performed using the Qiskit Aer simulator.
+
+\section{Results and Discussion}
+
+The simulation demonstrates the expected behaviour of Grover's algorithm.
+
+Initially, every basis state possesses equal probability amplitude. After successive Grover iterations, the amplitude of the marked state increases while the amplitudes of the remaining states decrease.
+
+The probability of measuring the marked state rises rapidly and reaches its maximum after the optimal number of Grover iterations. Beyond this point, the probability decreases because Grover's algorithm performs a rotation in the two-dimensional search subspace, producing oscillatory behaviour.
+
+The imaginary components of the statevector remain approximately zero throughout the computation, confirming that the implementation evolves primarily within the real amplitude space.
+
+The experimental observations closely match the theoretical predictions of
+Grover's Search Algorithm.
+
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/probability_plot.png}
+  \caption{Probability of measuring the marked state and the corresponding real amplitudes over multiple Grover iterations.}
+  \label{fig:probability}
+\end{figure}
+
+\section{Learning Outcomes}
+
+The project provided practical understanding of several important quantum computing concepts.
+
+\begin{itemize}
+\item Implementation of Grover's Search Algorithm.
+\item Construction of the Oracle circuit.
+\item Working of the Diffusion operator.
+\item Quantum amplitude amplification.
+\item Quantum circuit simulation using Qiskit.
+\item Statevector analysis and measurement statistics.
+\end{itemize}
+
+\section{Future Work}
+
+Possible extensions of this work include
+
+\begin{itemize}
+\item Searching multiple marked states.
+\item Increasing the number of qubits.
+\item Studying the effect of quantum noise.
+\item Executing the algorithm on real IBM Quantum hardware.
+\item Comparing the performance with classical search algorithms.
+\end{itemize}
+
+\section{Conclusion}
+
+Grover's Search Algorithm provides a quadratic speedup over classical search methods by exploiting quantum superposition, interference, and amplitude amplification. The implementation successfully identified the marked state $|1101\rangle$ and demonstrated the expected probability amplification across multiple Grover iterations. The experimental results validate both the correctness of the implementation and the theoretical principles of quantum search.
+
+\begin{thebibliography}{9}
+
+\bibitem{grover}
+L. K. Grover,
+\textit{A Fast Quantum Mechanical Algorithm for Database Search},
+Proceedings of the 28th Annual ACM Symposium on Theory of Computing, 1996.
+
+\bibitem{nielsen}
+Michael A. Nielsen and Isaac L. Chuang,
+\textit{Quantum Computation and Quantum Information},
+Cambridge University Press, 2010.
+
+\bibitem{qiskit}
+IBM,
+\textit{Qiskit Documentation},
+\url{https://qiskit.org/}
+
+\end{thebibliography}
+
+\end{document}
+
